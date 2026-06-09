@@ -42,7 +42,7 @@ run "test_full_features" {
 
     create_gateway            = true
     gateway_authorizer_type   = "CUSTOM_JWT"
-    gateway_jwt_discovery_url  = "https://issuer.example.com/.well-known/openid-configuration"
+    gateway_jwt_discovery_url = "https://issuer.example.com/.well-known/openid-configuration"
     gateway_protocol_type     = "MCP"
     gateway_targets = {
       lambda_tool = {

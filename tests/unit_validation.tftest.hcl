@@ -113,7 +113,7 @@ run "test_reject_custom_jwt_missing_discovery_url" {
     container_uri             = "111122223333.dkr.ecr.us-east-1.amazonaws.com/myagent:latest"
     create_gateway            = true
     gateway_authorizer_type   = "CUSTOM_JWT"
-    gateway_jwt_discovery_url  = null
+    gateway_jwt_discovery_url = null
   }
 
   expect_failures = [aws_bedrockagentcore_gateway.this]
@@ -128,7 +128,7 @@ run "test_reject_invalid_discovery_url" {
     container_uri             = "111122223333.dkr.ecr.us-east-1.amazonaws.com/myagent:latest"
     create_gateway            = true
     gateway_authorizer_type   = "CUSTOM_JWT"
-    gateway_jwt_discovery_url  = "https://issuer.example.com/openid"
+    gateway_jwt_discovery_url = "https://issuer.example.com/openid"
   }
 
   expect_failures = [var.gateway_jwt_discovery_url]
