@@ -21,6 +21,15 @@ mock_provider "aws" {
       dns_suffix = "amazonaws.com"
     }
   }
+
+  # IAM policy documents must render valid JSON so policy validation
+  # (aws_kms_key_policy / aws_iam_role assume_role_policy / inline policies)
+  # passes at plan time.
+  mock_data "aws_iam_policy_document" {
+    defaults = {
+      json = "{\"Version\":\"2012-10-17\",\"Statement\":[]}"
+    }
+  }
 }
 
 # Scenario: "Full Features (complete)"
@@ -37,7 +46,23 @@ run "test_full_features" {
     gateway_protocol_type     = "MCP"
     gateway_targets = {
       lambda_tool = {
-        target_configuration              = { mcp = { lambda = { lambda_arn = "arn:aws:lambda:us-east-1:111122223333:function:tool" } } }
+        target_configuration = {
+          mcp = {
+            lambda = {
+              lambda_arn = "arn:aws:lambda:us-east-1:111122223333:function:tool"
+              tool_schema = {
+                inline_payload = {
+                  name        = "get_weather"
+                  description = "Return the current weather for a location."
+                  input_schema = {
+                    type        = "object"
+                    description = "Weather tool input."
+                  }
+                }
+              }
+            }
+          }
+        }
         credential_provider_configuration = { gateway_iam_role = {} }
       }
     }

@@ -21,6 +21,15 @@ mock_provider "aws" {
       dns_suffix = "amazonaws.com"
     }
   }
+
+  # IAM policy documents must render valid JSON so policy validation
+  # (aws_kms_key_policy / aws_iam_role assume_role_policy / inline policies)
+  # passes at plan time.
+  mock_data "aws_iam_policy_document" {
+    defaults = {
+      json = "{\"Version\":\"2012-10-17\",\"Statement\":[]}"
+    }
+  }
 }
 
 # Scenario: "Secure Defaults (basic)"
