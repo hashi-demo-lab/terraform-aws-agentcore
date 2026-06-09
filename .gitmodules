@@ -1,3 +1,0 @@
-[submodule "tfai"]
-	path = tfai
-	url = https://github.ibm.com/AdvArch/tfai.git
